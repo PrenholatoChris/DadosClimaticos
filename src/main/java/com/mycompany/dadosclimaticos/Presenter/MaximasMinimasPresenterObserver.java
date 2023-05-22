@@ -58,7 +58,7 @@ public class MaximasMinimasPresenterObserver implements IPainel {
         }
         
         System.out.println(
-            "Maximas/Minimas\n" +
+            "--Maximas/Minimas--\n" +
             "Temp = " + maximaTemperatura + "/" + minimaTemperatura +
             "\nUmidade = " + maximaUmidade + "/" + minimaUmidade +
             "\nPressao = " + maximaPressao + "/" + minimaPressao

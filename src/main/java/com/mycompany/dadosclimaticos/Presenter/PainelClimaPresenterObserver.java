@@ -17,7 +17,6 @@ public class PainelClimaPresenterObserver implements IPainel{
     
     @Override
     public void atualizar(DadoClima dadoClima){
-        
         if (dadoClima.getData().isEqual(LocalDate.now())) {
             this.dadoClima = dadoClima;
         }
@@ -25,7 +24,8 @@ public class PainelClimaPresenterObserver implements IPainel{
     }
     
     public void exibir(){
-        System.out.println("Temp= " + dadoClima.getTemperatura()
+        System.out.println("--Ultimo dado--"
+            +   "\nTemp= " + dadoClima.getTemperatura()
             + "\nUmidade= " + dadoClima.getUmidade()
             + "\nPressao= " + dadoClima.getPressao()
         );
