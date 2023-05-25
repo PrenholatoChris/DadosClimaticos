@@ -6,6 +6,8 @@ package com.mycompany.dadosclimaticos.Presenter;
 
 import com.mycompany.dadosclimaticos.Model.DadoClima;
 import com.mycompany.dadosclimaticos.Model.IPainel;
+import com.mycompany.dadosclimaticos.View.PainelClimaView;
+import java.awt.Dimension;
 import java.time.LocalDate;
 
 /**
@@ -14,21 +16,32 @@ import java.time.LocalDate;
  */
 public class PainelClimaPresenterObserver implements IPainel{
     private DadoClima dadoClima;
+    private PainelClimaView view;
+    
+    public PainelClimaPresenterObserver(){
+        view = new PainelClimaView("Ultima Atualização do tempo", true, false, true, true);
+         view.setVisible(true);
+        
+        view.setLocation(300, 300);
+        view.setMinimumSize( new Dimension(303, 204));
+        view.setSize(380,220);
+    }
     
     @Override
     public void atualizar(DadoClima dadoClima){
-        if (dadoClima.getData().isEqual(LocalDate.now())) {
-            this.dadoClima = dadoClima;
-        }
+        this.dadoClima = dadoClima;
         exibir();
     }
     
+    public PainelClimaView getView(){
+        return view;
+    }
+    
     public void exibir(){
-        System.out.println("--Ultimo dado--"
-            +   "\nTemp= " + dadoClima.getTemperatura()
-            + "\nUmidade= " + dadoClima.getUmidade()
-            + "\nPressao= " + dadoClima.getPressao()
-        );
+        view.getFieldData().setText(dadoClima.getData().toString());
+        view.getFieldPressao().setText(""+dadoClima.getPressao());
+        view.getFieldTemp().setText(""+dadoClima.getTemperatura());
+        view.getFieldUmidade().setText(""+dadoClima.getUmidade());
     }
     
     

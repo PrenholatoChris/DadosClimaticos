@@ -5,65 +5,101 @@
 package com.mycompany.dadosclimaticos.Presenter;
 
 import com.mycompany.dadosclimaticos.Model.DadoClima;
+import com.mycompany.dadosclimaticos.Model.IPainel;
+
 import com.mycompany.dadosclimaticos.View.PrincipalView;
+import java.awt.BorderLayout;
+
+import java.awt.Dimension;
+
+//import com.mycompany.dadosclimaticos.View.PrincipalView;
 import java.time.LocalDate;
 import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  *
  * @author chris
  */
-public class PrincipalPresenter {
-    MaximasMinimasPresenterObserver maximasMinimas;
-    PainelClimaPresenterObserver painelClima;
-    EstatisticaClimaPresenterObserver estatisticaClima;
+public final class PrincipalPresenter implements IPainel{
+    PrincipalView view;
+    MaximasMinimasPresenterObserver maximasMinimasPresenter;
+    PainelClimaPresenterObserver painelClimaPresenter;
+    EstatisticaClimaPresenterObserver estatisticaClimaPresenter;
+    InserirDadoClimaPresenter inserirDadoClimaPresenter;
             
     public PrincipalPresenter(){
-        //PrincipalView view = new PrincipalView();
-        JDesktopPane  view = new JDesktopPane();
+       configurar();
         
-        
-        JInternalFrame maximasMinimas = new JInternalFrame("Maximas e Minimas", true, false, true, true);
-        
-        
-        maximasMinimas.pack();
-        maximasMinimas.setVisible(true);
-        
-
-        view.add(maximasMinimas);        
-        view.setVisible(true);
-        
-        
-        
-        
-         
         LocalDate data = LocalDate.now();
         DadoClima novoDado = new DadoClima(25f, 1.5f, 2f, data);
-        DadoClima dadoClima2 = new DadoClima(30f, 5f, 1f, data);
-        
-        //maximasMinimas= new MaximasMinimasPresenterObserver();
-        painelClima = new PainelClimaPresenterObserver();
-        estatisticaClima = new EstatisticaClimaPresenterObserver();
-        
         atualizar(novoDado);
-        atualizar(dadoClima2);
+
         
+        atualizar(new DadoClima(30f, 5f, 1f, data));
         
-        
-        //view.add(view)
+
     }
     
+    private void configurar(){
+         try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        view = new PrincipalView();
+        
+        //Presenters e Observers
+        maximasMinimasPresenter = new MaximasMinimasPresenterObserver();
+        estatisticaClimaPresenter = new EstatisticaClimaPresenterObserver();
+        painelClimaPresenter = new PainelClimaPresenterObserver();
+        
+        
+        inserirDadoClimaPresenter = new InserirDadoClimaPresenter();
+        
+        SwingUtilities.invokeLater(() -> {            
+            JDesktopPane desktopPane = view.getDesktopPane();
+            
+            maximasMinimasPresenter.getView().setLocation(10, 500);
+            estatisticaClimaPresenter.getView().setLocation(maximasMinimasPresenter.getView().getWidth() + 50, 500);
+            painelClimaPresenter.getView().setLocation(maximasMinimasPresenter.getView().getWidth() + estatisticaClimaPresenter.getView().getWidth() +50 +50, 500);
+
+            inserirDadoClimaPresenter.getView().setLocation(10, 10);
+            
+            
+            //fazer um vetor de views pra adicionar aqui e no atualizar 
+            desktopPane.add(maximasMinimasPresenter.getView());
+            desktopPane.add(estatisticaClimaPresenter.getView());
+            desktopPane.add(painelClimaPresenter.getView());
+            
+            
+            desktopPane.add(inserirDadoClimaPresenter.getView());
+            
+            
+            view.add(desktopPane, BorderLayout.CENTER);
+            view.setMinimumSize(new Dimension(300, 300));
+            view.pack();
+            view.setVisible(true);
+            view.setExtendedState(view.MAXIMIZED_BOTH);
+            
+            inserirDadoClimaPresenter.getView().getButtonIncluir().addActionListener((e) -> {
+                atualizar(inserirDadoClimaPresenter.incluir());
+            });
+            
+        });
+    }
     
+    @Override
     public void atualizar(DadoClima novoDado){
-        //maximasMinimas.atualizar(novoDado);
-        painelClima.atualizar(novoDado);
-        estatisticaClima.atualizar(novoDado);
+        maximasMinimasPresenter.atualizar(novoDado);
+        painelClimaPresenter.atualizar(novoDado);
+        estatisticaClimaPresenter.atualizar(novoDado);
     }
     
-    public void adicionarDado(float temp,float umidade, float pressao){
-                atualizar(new DadoClima(temp,pressao,umidade,LocalDate.now()));
-    }
+//    public void adicionarDado(float temp,float umidade, float pressao){
+//                atualizar(new DadoClima(temp,pressao,umidade,LocalDate.now()));
+//    }
     
     
     

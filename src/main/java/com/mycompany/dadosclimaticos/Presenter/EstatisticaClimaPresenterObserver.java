@@ -8,6 +8,7 @@ import com.mycompany.dadosclimaticos.Collection.DadoClimaCollection;
 import com.mycompany.dadosclimaticos.Model.DadoClima;
 import com.mycompany.dadosclimaticos.Model.IPainel;
 import com.mycompany.dadosclimaticos.View.EstatisticaClimaView;
+import java.awt.Dimension;
 
 /**
  *
@@ -15,10 +16,21 @@ import com.mycompany.dadosclimaticos.View.EstatisticaClimaView;
  */
 public class EstatisticaClimaPresenterObserver implements IPainel{
     private DadoClimaCollection dadosClima;
+    private EstatisticaClimaView view;
     
     EstatisticaClimaPresenterObserver(){
         dadosClima = new DadoClimaCollection();
-        EstatisticaClimaView view = new EstatisticaClimaView();
+        view = new EstatisticaClimaView("Dados médios", true, false, true, true);
+        
+        view.setVisible(true);
+        
+        view.setLocation(300, 300);
+        view.setMinimumSize( new Dimension(373, 208));
+        view.setSize(380,220);
+    }
+    
+    public EstatisticaClimaView getView(){
+        return view;
     }
     
     @Override 
@@ -31,18 +43,27 @@ public class EstatisticaClimaPresenterObserver implements IPainel{
        Float somaTemperaturas = 0f;
        Float somaUmidades = 0f;
        Float somaPressoes = 0f;
+       int qtd = 0;
 
        for (DadoClima dadoClima : dadosClima.getDados()) {
+           qtd++;
            somaTemperaturas += dadoClima.getTemperatura();
            somaUmidades += dadoClima.getUmidade();
            somaPressoes += dadoClima.getPressao();
        }
 
-       int tamanho = dadosClima.size();
+        int tamanho = dadosClima.size();
+       
+        view.getFieldTemp().setText("" +  (somaTemperaturas / tamanho));
+        view.getFieldPressao().setText("" + (somaPressoes / tamanho));
+        
+        view.getFieldUmidade().setText("" + (somaUmidades / tamanho));
+        view.getFieldQtdRegistro().setText("" + qtd);
 
-       System.out.println("--Estatísticas Clima--\nMédia Temperatura: " + (somaTemperaturas / tamanho) 
-        + "\nMédia Umidade: " + (somaUmidades / tamanho) 
-        + "\nMédia Pressão: " + (somaPressoes / tamanho)
-       );
+//
+//       System.out.println("--Estatísticas Clima--\nMédia Temperatura: " + (somaTemperaturas / tamanho) 
+//        + "\nMédia Umidade: " + (somaUmidades / tamanho) 
+//        + "\nMédia Pressão: " + (somaPressoes / tamanho)
+//       );
     }
 }
