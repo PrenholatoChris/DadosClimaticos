@@ -35,8 +35,9 @@ public class MaximasMinimasPresenterObserver implements IPainel {
     }
     
     @Override
-    public void atualizar(DadoClima dadoClima){
-        dadosClima.add(dadoClima);
+    public void atualizar(DadoClimaCollection dadosClima){
+        this.dadosClima = dadosClima;
+//        dadosClima.add(dadoClima);
         exibir();
     }
     

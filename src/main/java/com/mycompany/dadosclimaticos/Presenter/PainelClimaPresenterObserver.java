@@ -4,6 +4,7 @@
  */
 package com.mycompany.dadosclimaticos.Presenter;
 
+import com.mycompany.dadosclimaticos.Collection.DadoClimaCollection;
 import com.mycompany.dadosclimaticos.Model.DadoClima;
 import com.mycompany.dadosclimaticos.Model.IPainel;
 import com.mycompany.dadosclimaticos.View.PainelClimaView;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
  * @author chris
  */
 public class PainelClimaPresenterObserver implements IPainel{
-    private DadoClima dadoClima;
+    private DadoClimaCollection dadosClima;
     private PainelClimaView view;
     
     public PainelClimaPresenterObserver(){
@@ -28,8 +29,8 @@ public class PainelClimaPresenterObserver implements IPainel{
     }
     
     @Override
-    public void atualizar(DadoClima dadoClima){
-        this.dadoClima = dadoClima;
+    public void atualizar(DadoClimaCollection dadosClima){
+        this.dadosClima = dadosClima;
         exibir();
     }
     
@@ -38,6 +39,8 @@ public class PainelClimaPresenterObserver implements IPainel{
     }
     
     public void exibir(){
+        DadoClima dadoClima = dadosClima.get(dadosClima.size()-1);
+                
         view.getFieldData().setText(dadoClima.getData().toString());
         view.getFieldPressao().setText(""+dadoClima.getPressao());
         view.getFieldTemp().setText(""+dadoClima.getTemperatura());

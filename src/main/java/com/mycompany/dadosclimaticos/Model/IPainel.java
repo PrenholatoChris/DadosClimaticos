@@ -4,10 +4,13 @@
  */
 package com.mycompany.dadosclimaticos.Model;
 
+import com.mycompany.dadosclimaticos.Collection.DadoClimaCollection;
+
 /**
  *
  * @author chris
  */
 public interface IPainel {
-    public void atualizar(DadoClima dadoClima);
+//    public void atualizar(DadoClima dadoClima);
+    public void atualizar(DadoClimaCollection dadosClima);
 }

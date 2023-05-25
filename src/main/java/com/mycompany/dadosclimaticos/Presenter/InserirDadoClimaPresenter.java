@@ -19,10 +19,11 @@ public class InserirDadoClimaPresenter {
         view = new InserirDadoClimaView("Inserir Dados do tempo", true, false, true, true);
     
         view.setVisible(true);
-        view.setLocation(300, 300);
+//        view.setLocation(300, 300);
         view.setMinimumSize( new Dimension(303, 239));
         view.setSize(380,240);
     
+        
     
     
     }

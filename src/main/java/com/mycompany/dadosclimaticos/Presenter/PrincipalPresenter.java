@@ -4,6 +4,7 @@
  */
 package com.mycompany.dadosclimaticos.Presenter;
 
+import com.mycompany.dadosclimaticos.Collection.DadoClimaCollection;
 import com.mycompany.dadosclimaticos.Model.DadoClima;
 import com.mycompany.dadosclimaticos.Model.IPainel;
 
@@ -27,19 +28,23 @@ public final class PrincipalPresenter implements IPainel{
     MaximasMinimasPresenterObserver maximasMinimasPresenter;
     PainelClimaPresenterObserver painelClimaPresenter;
     EstatisticaClimaPresenterObserver estatisticaClimaPresenter;
+    
     InserirDadoClimaPresenter inserirDadoClimaPresenter;
+    RegistrosDadoClimaPresenterObserver registrosDadoClimaPresenter;
             
+    DadoClimaCollection dadosClima;
+    
     public PrincipalPresenter(){
        configurar();
+       dadosClima = new DadoClimaCollection();
         
         LocalDate data = LocalDate.now();
         DadoClima novoDado = new DadoClima(25f, 1.5f, 2f, data);
-        atualizar(novoDado);
-
+        dadosClima.add(novoDado);
         
-        atualizar(new DadoClima(30f, 5f, 1f, data));
+        atualizar(dadosClima);
         
-
+        
     }
     
     private void configurar(){
@@ -57,6 +62,7 @@ public final class PrincipalPresenter implements IPainel{
         
         
         inserirDadoClimaPresenter = new InserirDadoClimaPresenter();
+        registrosDadoClimaPresenter = new RegistrosDadoClimaPresenterObserver();
         
         SwingUtilities.invokeLater(() -> {            
             JDesktopPane desktopPane = view.getDesktopPane();
@@ -66,7 +72,7 @@ public final class PrincipalPresenter implements IPainel{
             painelClimaPresenter.getView().setLocation(maximasMinimasPresenter.getView().getWidth() + estatisticaClimaPresenter.getView().getWidth() +50 +50, 500);
 
             inserirDadoClimaPresenter.getView().setLocation(10, 10);
-            
+            registrosDadoClimaPresenter.getView().setLocation(inserirDadoClimaPresenter.getView().getWidth()+50, 10);
             
             //fazer um vetor de views pra adicionar aqui e no atualizar 
             desktopPane.add(maximasMinimasPresenter.getView());
@@ -75,6 +81,7 @@ public final class PrincipalPresenter implements IPainel{
             
             
             desktopPane.add(inserirDadoClimaPresenter.getView());
+            desktopPane.add(registrosDadoClimaPresenter.getView());
             
             
             view.add(desktopPane, BorderLayout.CENTER);
@@ -84,17 +91,27 @@ public final class PrincipalPresenter implements IPainel{
             view.setExtendedState(view.MAXIMIZED_BOTH);
             
             inserirDadoClimaPresenter.getView().getButtonIncluir().addActionListener((e) -> {
-                atualizar(inserirDadoClimaPresenter.incluir());
+                DadoClima dadoClima = inserirDadoClimaPresenter.incluir();
+                dadosClima.add(dadoClima);
+                atualizar(dadosClima);
             });
+            
+//            registrosDadoClimaPresenter.getView().getButtonRemover().addActionListener((e)->{
+//                
+//                dadosClima.remove()
+//            
+//            })
             
         });
     }
     
     @Override
-    public void atualizar(DadoClima novoDado){
-        maximasMinimasPresenter.atualizar(novoDado);
-        painelClimaPresenter.atualizar(novoDado);
-        estatisticaClimaPresenter.atualizar(novoDado);
+    public void atualizar(DadoClimaCollection dadosClima){
+        maximasMinimasPresenter.atualizar(dadosClima);
+        painelClimaPresenter.atualizar(dadosClima);
+        estatisticaClimaPresenter.atualizar(dadosClima);
+        
+        registrosDadoClimaPresenter.atualizar(dadosClima);
     }
     
 //    public void adicionarDado(float temp,float umidade, float pressao){
