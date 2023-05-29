@@ -11,17 +11,13 @@ import com.mycompany.dadosclimaticos.Log.Log;
 
 
 import com.mycompany.dadosclimaticos.View.PrincipalView;
-import com.thoughtworks.xstream.XStream;
 import java.awt.BorderLayout;
 
 import java.awt.Dimension;
 
 //import com.mycompany.dadosclimaticos.View.PrincipalView;
 import java.time.LocalDate;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.XMLFormatter;
+
 import javax.swing.JDesktopPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
@@ -52,13 +48,6 @@ public final class PrincipalPresenter implements IPainel{
        log = new Log();       
        
        dadosClima = new DadoClimaCollection();
-        
-        LocalDate data = LocalDate.now();
-        
-        addDadoClima( new DadoClima(25f, 1.5f, 2f, data));
-        addDadoClima(new DadoClima(30f, 3f, 5f, data));
-        addDadoClima(new DadoClima(-5f, 2f, 3f, data));
-        addDadoClima(new DadoClima(10f,1f,0.5f,data));
     }
    
     
@@ -136,8 +125,6 @@ public final class PrincipalPresenter implements IPainel{
     
     private void addDadoClima(DadoClima dadoClima){
         dadosClima.add(dadoClima);
-//        XStream xstream = new XStream();
-//        String xml = xstream.toXML(dadoClima).toString();
         log.makeLog(dadoClima, true);
         atualizar(dadosClima);
     }
@@ -145,11 +132,7 @@ public final class PrincipalPresenter implements IPainel{
     private void removeDadoClima(int id){        
         DadoClima dadoClima = dadosClima.get(id);
         dadosClima.remove(id);
-//        XStream xstream = new XStream();
-//        String xml= xstream.toXML(dadoClima).toString();
         log.makeLog(dadoClima, false);
         atualizar(dadosClima);
     }
-    
-    
 }

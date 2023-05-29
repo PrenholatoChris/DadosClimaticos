@@ -72,7 +72,7 @@ public class MediaClimaView extends javax.swing.JInternalFrame {
 
         fieldTemp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         fieldTemp.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        fieldTemp.setText("jTextField1");
+        fieldTemp.setText("sem dados");
         fieldTemp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldTempActionPerformed(evt);
@@ -81,15 +81,15 @@ public class MediaClimaView extends javax.swing.JInternalFrame {
 
         fieldPressao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         fieldPressao.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        fieldPressao.setText("jTextField1");
+        fieldPressao.setText("sem dados");
 
         fieldUmidade.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         fieldUmidade.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        fieldUmidade.setText("jTextField1");
+        fieldUmidade.setText("sem dados");
 
         fieldQtdRegistro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         fieldQtdRegistro.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        fieldQtdRegistro.setText("jTextField1");
+        fieldQtdRegistro.setText("sem dados");
         fieldQtdRegistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldQtdRegistroActionPerformed(evt);
@@ -103,12 +103,10 @@ public class MediaClimaView extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel6))
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)

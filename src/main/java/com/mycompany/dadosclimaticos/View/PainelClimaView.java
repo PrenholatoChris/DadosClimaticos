@@ -75,7 +75,7 @@ public class PainelClimaView extends javax.swing.JInternalFrame {
 
         fieldTemp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         fieldTemp.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        fieldTemp.setText("jTextField1");
+        fieldTemp.setText("sem dados");
         fieldTemp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldTempActionPerformed(evt);
@@ -84,15 +84,15 @@ public class PainelClimaView extends javax.swing.JInternalFrame {
 
         fieldPressao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         fieldPressao.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        fieldPressao.setText("jTextField1");
+        fieldPressao.setText("sem dados");
 
         fieldUmidade.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         fieldUmidade.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        fieldUmidade.setText("jTextField1");
+        fieldUmidade.setText("sem dados");
 
         fieldData.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         fieldData.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        fieldData.setText("jTextField1");
+        fieldData.setText("sem dados");
         fieldData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fieldDataActionPerformed(evt);
