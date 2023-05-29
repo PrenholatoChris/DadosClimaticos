@@ -23,6 +23,7 @@ public class DadoClimaCollection {
     }
     
     public boolean add(DadoClima dadoClima){
+
         return dadosClima.add(dadoClima);
     }
     
@@ -45,7 +46,7 @@ public class DadoClimaCollection {
     
     public DadoClima get(int index){
         int size = dadosClima.size();
-        if(size > index){
+        if(size >= index){
             return dadosClima.get(index);
         }
         else 

@@ -7,6 +7,8 @@ package com.mycompany.dadosclimaticos.Presenter;
 import com.mycompany.dadosclimaticos.Collection.DadoClimaCollection;
 import com.mycompany.dadosclimaticos.Model.DadoClima;
 import com.mycompany.dadosclimaticos.Model.IPainel;
+import com.mycompany.dadosclimaticos.Model.MaximasMinimasDadoClima;
+import com.mycompany.dadosclimaticos.Service.MaximasMinimasService;
 import com.mycompany.dadosclimaticos.View.MaximasMinimasView;
 import java.awt.Dimension;
 
@@ -37,7 +39,6 @@ public class MaximasMinimasPresenterObserver implements IPainel {
     @Override
     public void atualizar(DadoClimaCollection dadosClima){
         this.dadosClima = dadosClima;
-//        dadosClima.add(dadoClima);
         exibir();
     }
     
@@ -45,45 +46,34 @@ public class MaximasMinimasPresenterObserver implements IPainel {
         return view;
     }
     
-    public boolean isNull(){
-        if(this == null){
-            return true;
-        }
-        else
-            return false;
-    }
     
     public void exibir(){
-       
-        float minimaTemperatura = 9999;
-        float minimaPressao = 9999;
-        float minimaUmidade = 9999;
+        var dataset = new DefaultCategoryDataset();
+
+        if(dadosClima.size() == 0){
+            JFreeChart chart = ChartFactory.createBarChart(
+                "Máximas e Mínimas dos Dados Climáticos",
+                "",
+                "",
+                dataset,
+                PlotOrientation.VERTICAL,
+                false, true, true);
         
-        float maximaTemperatura = -9999;
-        float maximaPressao = -9999;
-        float maximaUmidade = -9999;
-               
-        for (DadoClima dadoClima : dadosClima.getDados()) {
-            float temp = dadoClima.getTemperatura();
-            if(temp > maximaTemperatura)
-                maximaTemperatura = temp;
-            if(temp < minimaTemperatura)
-                minimaTemperatura = temp;
-            
-            float pressao = dadoClima.getPressao();
-            if(pressao > maximaPressao)
-                maximaPressao = pressao;
-            if(pressao < minimaPressao)
-                minimaPressao = pressao;
-            
-            float umidade = dadoClima.getUmidade();
-            if(umidade > maximaUmidade)
-                maximaUmidade = umidade;
-            if(umidade < minimaUmidade)
-                minimaUmidade = umidade;
+            view.getChartPanel().setChart(chart);
+            return;
         }
         
-        var dataset = new DefaultCategoryDataset();
+        MaximasMinimasDadoClima maximasMinimas = MaximasMinimasService.calcular(dadosClima);
+        float minimaTemperatura = maximasMinimas.getMinimaTemperatura();
+        float maximaTemperatura = maximasMinimas.getMaximaTemperatura();
+        
+        float minimaPressao = maximasMinimas.getMinimaPressao();
+        float maximaPressao = maximasMinimas.getMaximaPressao();
+        
+        float minimaUmidade = maximasMinimas.getMinimaUmidade();
+        float maximaUmidade = maximasMinimas.getMaximaUmidade();
+
+        
         dataset.setValue(maximaTemperatura, "Máxima", "Temperatura");
         dataset.setValue(minimaTemperatura, "Mínima", "Temperatura");
         
@@ -101,13 +91,6 @@ public class MaximasMinimasPresenterObserver implements IPainel {
                 PlotOrientation.VERTICAL,
                 false, true, true);
         
-        view.getChartPanel().setChart(chart);
-    
-        
-        
-//        view.getFieldTemp().setText(""+ maximaTemperatura + "/" + minimaTemperatura);;
-//        view.getFieldPressao().setText(""+ maximaPressao + "/" + minimaPressao);
-//        view.getFieldUmidade().setText(""+ maximaUmidade + "/" + minimaUmidade);
-        
+        view.getChartPanel().setChart(chart);        
     }
 }

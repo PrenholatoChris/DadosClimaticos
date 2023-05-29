@@ -39,6 +39,13 @@ public class PainelClimaPresenterObserver implements IPainel{
     }
     
     public void exibir(){
+        if(dadosClima.size() == 0){
+            view.getFieldData().setText("sem dados");
+            view.getFieldPressao().setText("sem dados");
+            view.getFieldTemp().setText("sem dados");
+            view.getFieldUmidade().setText("sem dados");
+            return;
+        }
         DadoClima dadoClima = dadosClima.get(dadosClima.size()-1);
                 
         view.getFieldData().setText(dadoClima.getData().toString());

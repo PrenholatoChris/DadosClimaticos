@@ -7,17 +7,26 @@ package com.mycompany.dadosclimaticos.Presenter;
 import com.mycompany.dadosclimaticos.Collection.DadoClimaCollection;
 import com.mycompany.dadosclimaticos.Model.DadoClima;
 import com.mycompany.dadosclimaticos.Model.IPainel;
+import com.mycompany.dadosclimaticos.Log.Log;
+
 
 import com.mycompany.dadosclimaticos.View.PrincipalView;
+import com.thoughtworks.xstream.XStream;
 import java.awt.BorderLayout;
 
 import java.awt.Dimension;
 
 //import com.mycompany.dadosclimaticos.View.PrincipalView;
 import java.time.LocalDate;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.XMLFormatter;
 import javax.swing.JDesktopPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
 
 /**
  *
@@ -27,27 +36,33 @@ public final class PrincipalPresenter implements IPainel{
     PrincipalView view;
     MaximasMinimasPresenterObserver maximasMinimasPresenter;
     PainelClimaPresenterObserver painelClimaPresenter;
-    EstatisticaClimaPresenterObserver estatisticaClimaPresenter;
+    MediaClimaPresenterObserver estatisticaClimaPresenter;
     
     InserirDadoClimaPresenter inserirDadoClimaPresenter;
     RegistrosDadoClimaPresenterObserver registrosDadoClimaPresenter;
-            
+    ChangeLogPresenter changeLogPresenter;
+    
     DadoClimaCollection dadosClima;
     
-    public PrincipalPresenter(){
-       configurar();
+    Log log;
+    
+    
+    public PrincipalPresenter(){        
+       configurarTela();
+       log = new Log();       
+       
        dadosClima = new DadoClimaCollection();
         
         LocalDate data = LocalDate.now();
-        DadoClima novoDado = new DadoClima(25f, 1.5f, 2f, data);
-        dadosClima.add(novoDado);
         
-        atualizar(dadosClima);
-        
-        
+        addDadoClima( new DadoClima(25f, 1.5f, 2f, data));
+        addDadoClima(new DadoClima(30f, 3f, 5f, data));
+        addDadoClima(new DadoClima(-5f, 2f, 3f, data));
+        addDadoClima(new DadoClima(10f,1f,0.5f,data));
     }
+   
     
-    private void configurar(){
+    private void configurarTela(){
          try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
           } catch (Exception e) {
@@ -57,12 +72,13 @@ public final class PrincipalPresenter implements IPainel{
         
         //Presenters e Observers
         maximasMinimasPresenter = new MaximasMinimasPresenterObserver();
-        estatisticaClimaPresenter = new EstatisticaClimaPresenterObserver();
+        estatisticaClimaPresenter = new MediaClimaPresenterObserver();
         painelClimaPresenter = new PainelClimaPresenterObserver();
         
         
         inserirDadoClimaPresenter = new InserirDadoClimaPresenter();
         registrosDadoClimaPresenter = new RegistrosDadoClimaPresenterObserver();
+        changeLogPresenter = new ChangeLogPresenter();
         
         SwingUtilities.invokeLater(() -> {            
             JDesktopPane desktopPane = view.getDesktopPane();
@@ -73,6 +89,7 @@ public final class PrincipalPresenter implements IPainel{
 
             inserirDadoClimaPresenter.getView().setLocation(10, 10);
             registrosDadoClimaPresenter.getView().setLocation(inserirDadoClimaPresenter.getView().getWidth()+50, 10);
+            changeLogPresenter.getView().setLocation(inserirDadoClimaPresenter.getView().getWidth() + registrosDadoClimaPresenter.getView().getWidth() +50+50, 10);
             
             //fazer um vetor de views pra adicionar aqui e no atualizar 
             desktopPane.add(maximasMinimasPresenter.getView());
@@ -82,6 +99,7 @@ public final class PrincipalPresenter implements IPainel{
             
             desktopPane.add(inserirDadoClimaPresenter.getView());
             desktopPane.add(registrosDadoClimaPresenter.getView());
+            desktopPane.add(changeLogPresenter.getView());
             
             
             view.add(desktopPane, BorderLayout.CENTER);
@@ -92,15 +110,17 @@ public final class PrincipalPresenter implements IPainel{
             
             inserirDadoClimaPresenter.getView().getButtonIncluir().addActionListener((e) -> {
                 DadoClima dadoClima = inserirDadoClimaPresenter.incluir();
-                dadosClima.add(dadoClima);
-                atualizar(dadosClima);
+                addDadoClima(dadoClima);
             });
             
-//            registrosDadoClimaPresenter.getView().getButtonRemover().addActionListener((e)->{
-//                
-//                dadosClima.remove()
-//            
-//            })
+            registrosDadoClimaPresenter.getView().getButtonRemover().addActionListener((e)->{
+                JTable tabela = registrosDadoClimaPresenter.getView().getTable();                
+                removeDadoClima(tabela.getSelectedRow());
+            });
+            
+            changeLogPresenter.getView().getButtonSalvar().addActionListener((e)->{
+                log.setLogType(changeLogPresenter.getView().getComboBox().getSelectedItem().toString());
+            });
             
         });
     }
@@ -114,10 +134,22 @@ public final class PrincipalPresenter implements IPainel{
         registrosDadoClimaPresenter.atualizar(dadosClima);
     }
     
-//    public void adicionarDado(float temp,float umidade, float pressao){
-//                atualizar(new DadoClima(temp,pressao,umidade,LocalDate.now()));
-//    }
+    private void addDadoClima(DadoClima dadoClima){
+        dadosClima.add(dadoClima);
+//        XStream xstream = new XStream();
+//        String xml = xstream.toXML(dadoClima).toString();
+        log.makeLog(dadoClima, true);
+        atualizar(dadosClima);
+    }
     
+    private void removeDadoClima(int id){        
+        DadoClima dadoClima = dadosClima.get(id);
+        dadosClima.remove(id);
+//        XStream xstream = new XStream();
+//        String xml= xstream.toXML(dadoClima).toString();
+        log.makeLog(dadoClima, false);
+        atualizar(dadosClima);
+    }
     
     
 }

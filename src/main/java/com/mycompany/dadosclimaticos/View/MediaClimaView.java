@@ -12,11 +12,11 @@ import javax.swing.JTextField;
  *
  * @author chris
  */
-public class EstatisticaClimaView extends javax.swing.JInternalFrame {
+public class MediaClimaView extends javax.swing.JInternalFrame {
     /**
      * Creates new form EstatisticaClimaView
      */
-    public EstatisticaClimaView(String title, boolean resizable, boolean closable, boolean maximizable, boolean iconable) {
+    public MediaClimaView(String title, boolean resizable, boolean closable, boolean maximizable, boolean iconable) {
         super(title,resizable, closable, maximizable, iconable);
         initComponents();
     }
@@ -104,7 +104,7 @@ public class EstatisticaClimaView extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
