@@ -31,6 +31,9 @@ public class LogJson implements ILog{
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(LocalDate.class, new LocalDateSerializer())
                     .create();
+            
+//                    new Gson();
+                    
 
             String json = gson.toJson(dadoJson);
 

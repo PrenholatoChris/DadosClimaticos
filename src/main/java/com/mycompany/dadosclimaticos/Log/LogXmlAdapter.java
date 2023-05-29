@@ -4,6 +4,7 @@
  */
 package com.mycompany.dadosclimaticos.Log;
 
+import com.mycompany.dadosclimaticos.externalLogLibrary.LogXmlExterna;
 import com.mycompany.dadosclimaticos.Model.DadoClima;
 
 /**

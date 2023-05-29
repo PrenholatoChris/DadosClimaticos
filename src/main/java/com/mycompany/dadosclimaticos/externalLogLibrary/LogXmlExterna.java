@@ -2,14 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.dadosclimaticos.Log;
+package com.mycompany.dadosclimaticos.externalLogLibrary;
 
 import com.mycompany.dadosclimaticos.Model.DadoClima;
 import com.thoughtworks.xstream.XStream;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+
 
 
 /**
