@@ -19,6 +19,7 @@ import java.awt.Dimension;
 import java.time.LocalDate;
 
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -98,13 +99,25 @@ public final class PrincipalPresenter implements IPainel{
             view.setExtendedState(view.MAXIMIZED_BOTH);
             
             inserirDadoClimaPresenter.getView().getButtonIncluir().addActionListener((e) -> {
-                DadoClima dadoClima = inserirDadoClimaPresenter.incluir();
-                addDadoClima(dadoClima);
+                try{
+                    DadoClima dadoClima = inserirDadoClimaPresenter.incluir();
+                    addDadoClima(dadoClima);
+                }
+                catch(Exception ex){
+                    JOptionPane.showMessageDialog(view,"Erro na entrada dos dados: (Selecione um dado antes de remover clicando no botao) "+ ex);
+                }
+                
             });
             
             registrosDadoClimaPresenter.getView().getButtonRemover().addActionListener((e)->{
-                JTable tabela = registrosDadoClimaPresenter.getView().getTable();                
-                removeDadoClima(tabela.getSelectedRow());
+                try{
+                    JTable tabela = registrosDadoClimaPresenter.getView().getTable();
+                    removeDadoClima(tabela.getSelectedRow());
+                }
+                catch(Exception ex){
+                    JOptionPane.showMessageDialog(view,"Erro ao excluir um Dado: " + ex);
+                }
+                
             });
             
             changeLogPresenter.getView().getButtonSalvar().addActionListener((e)->{
